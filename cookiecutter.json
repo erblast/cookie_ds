@@ -1,5 +1,6 @@
 {
     "project_name" : "cookie_ds_demo",
+    "description" : "demo of [cookie_dc project template](https://github.com/erblast/cookie_ds.git)",
     "github_repo" : "https://github.com/erblast/cookie_ds_demo.git",
     "git_pages_address" : "https://erblast.github.io/cookie_ds_demo/",
     "travis_address" : "https://travis-ci.org/erblast/cookie_ds_demo",
