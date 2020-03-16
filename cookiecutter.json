@@ -1,0 +1,15 @@
+{
+    "project_name" : "cookie_ds_demo",
+    "github_repo" : "https://github.com/erblast/cookie_ds_demo.git",
+    "git_pages_address" : "https://erblast.github.io/cookie_ds_demo/",
+    "travis_address" : "https://travis-ci.org/erblast/cookie_ds_demo",
+    "travis_badge" : "https://travis-ci.org/erblast/cookie_ds_demo.svg?branch=master",
+    "author_first_name" : "Björn",
+    "author_last_name" : "Koneswarakantha",
+    "author_email" : "datistics@gmail.com",
+    "docker_base_image" : "erblast/r_conda_snakemake_pkgs",
+    "docker_target_image" : "cookie_ds_demo",
+    "rstudio_port" : "8787",
+    "rstudio_password" : "123",
+    "rstudio_user" : "rstudio"
+}

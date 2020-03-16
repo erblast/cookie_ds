@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  build_image:
+    build: .
+    image: '{{cookiecutter.docker_target_image}}'
+    command: /bin/bash
+  shell:
+    image: '{{cookiecutter.docker_target_image}}'
+    working_dir: /app
+    # make container wait
+    command: tail -F anything
+    volumes: 
+      - '.:/app'
+  rstudio:
+    image: '{{cookiecutter.docker_target_image}}'
+    ports: 
+      - '{{cookiecutter.rstudio_port}}:8787'
+    volumes: 
+      - '.:/home/rstudio/app'
+    command: /init
+    environment:
+      PASSWORD: '{{cookiecutter.rstudio_password}}'
+      USER: '{{cookiecutter.rstudio_user}}'
+  

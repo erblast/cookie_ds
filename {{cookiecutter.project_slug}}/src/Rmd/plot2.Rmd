@@ -1,0 +1,31 @@
+---
+title: "plot data"
+output: 
+    html_document:
+        toc: true
+        toc_float: true
+        toc_depth: 2
+editor_options:
+  chunk_output_type: console
+params:
+    in: "data/out/feather/data.feather"
+    out: "docs/png/plot2.png"
+---
+
+This file was rendered via R script.
+
+Changes in this file are being detected by snakemake.
+
+The advantage is that additionally to a single html render file we can also define output files.
+
+```{r}
+
+debug_file = paste0('debug/', params$rule, '_rmd_.Rdata')
+save.image(debug_file)
+
+df = feather::read_feather(params$in[[1]])
+
+easyalluvial::alluvial_wide(df, fill_by = 'first_variable')
+
+ggplot2::ggsave( params$out[[1]] )
+```

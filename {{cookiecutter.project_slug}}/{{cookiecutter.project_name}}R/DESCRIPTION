@@ -1,0 +1,15 @@
+Package: {{cookiecutter.project_name}}R
+Title: {{cookiecutter.project_name}}R R package
+Version: 0.0.0.9000
+Authors@R:
+    person(given = "{{cookiecutter.author_first_name}}",
+           family = "{{cookiecutter.author_last_name}}",
+           role = c("aut", "cre"),
+           email = "{{cookiecutter.author_email}}")
+Description: Where R helper functions live and can be tested.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Suggests:
+    testthat
+RoxygenNote: 6.1.1
