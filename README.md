@@ -13,7 +13,7 @@ inspired by:
 [cookie_ds_demo repository](https://github.com/erblast/cookie_ds_demo)
 
 # Features:
-- CI/CD using travis
+- CI/CD using `travis`
 - control execution via `snakemake`
 - `docker-compose` spins up `RStudio`, `jupyter notebook` and `jekyll`(for github page rendering) server containers
 - templates for **test**, **exec** and **job** rules 
@@ -97,7 +97,7 @@ Critical parts should be packaged and unit tested. This step is allowed to take 
 
 The **job** rule in this demo repo does not do much. Code executed by a **job** rule should have a very high test coverage and configuration should be expressive using envirnment variables, rather than hidden in config files. Should be used for accessing data that periodcially refreshes and is allowed to take up many computationanl ressources. A typical application would be to generate predictions from a pre-trained model on new data.
 
-These rules could be used to set up this deployment strategy
+These rules could be used to set up this examplatory deployment strategy
 
 ![](container_deployment.png)
 
