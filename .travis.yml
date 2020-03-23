@@ -9,5 +9,5 @@ install:
 script: 
   - cookiecutter https://github.com/erblast/cookie_ds --no-input
   - docker build -t cookie_ds_demo --file cookie_ds_demo/Dockerfile cookie_ds_demo/.
-  - docker run -v"$PWD/cookie_ds_demo:/app/" {{cookiecutter.project_name}}
-  - docker run -v"$PWD/cookie_ds_demo:/app/" {{cookiecutter.project_name}} snakemake -F job
+  - docker run -v"$PWD/cookie_ds_demo:/app/" cookie_ds_demo
+  - docker run -v"$PWD/cookie_ds_demo:/app/" cookie_ds_demo snakemake -F job
