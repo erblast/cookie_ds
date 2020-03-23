@@ -1,2 +1,6 @@
 .snakemake/
 .git/
+debug/**
+data/in/**
+data/proc/**
+data/out/**

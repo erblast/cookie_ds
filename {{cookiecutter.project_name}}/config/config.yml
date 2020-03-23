@@ -1,3 +1,19 @@
+# test --------------------------------------------------------
 
-dataset:
-  'iris'
+fail_check_on: "warning" # "error", "warning", "note"
+lint: true
+
+# document------------------------------------------------------
+
+rules_to_report:
+  - "exec"
+  - "test"
+  - "job"
+
+
+# config files -------------------------------------------------
+# if multiple config files are used snakemake merges them and keys can't be duplicated
+# if multiple large config files are needed by scripts it is better to pass the files directly
+
+config_files:
+  exec: "config/config_exec.yml"

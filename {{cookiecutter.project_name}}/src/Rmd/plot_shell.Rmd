@@ -1,0 +1,46 @@
+---
+title: "plot data"
+output: 
+    html_document:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+editor_options:
+  chunk_output_type: console
+params:
+    input: "data/out/feather/data.feather"
+    output: "docs/png/plot2.png"
+    rule: "plot_rmd_snakemake"
+---
+
+# `r params$rule`
+
+This file was rendered via shell. All parameters passed via `markdown::render` call.
+
+This allows for creating several output files as addressed in this [issue](https://github.com/snakemake/snakemake/issues/178)
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = F, warning = F, message = F)
+debug_file = paste0('debug/', params$rule[[1]], '_rmd.Rdata')
+save.image(debug_file)
+```
+
+
+```{r libraries = FALSE}
+suppressPackageStartupMessages( library('tidyverse') )
+suppressPackageStartupMessages( library('easyalluvial') )
+suppressPackageStartupMessages( library('feather') )
+suppressPackageStartupMessages( library('devtools') )
+suppressPackageStartupMessages( devtools::load_all("src/{{cookiecutter.r_pkg_name}}") )
+```
+
+
+
+
+```{r}
+df = feather::read_feather(params$input[[1]])
+
+easyalluvial::alluvial_wide(df, fill_by = 'first_variable')
+
+ggplot2::ggsave( params$output[[1]] )
+```

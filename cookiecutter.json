@@ -1,16 +1,23 @@
 {
     "project_name" : "cookie_ds_demo",
     "description" : "demo of [cookie_dc project template](https://github.com/erblast/cookie_ds.git)",
-    "github_repo" : "https://github.com/erblast/cookie_ds_demo.git",
-    "git_pages_address" : "https://erblast.github.io/cookie_ds_demo/",
-    "travis_address" : "https://travis-ci.org/erblast/cookie_ds_demo",
-    "travis_badge" : "https://travis-ci.org/erblast/cookie_ds_demo.svg?branch=master",
-    "author_first_name" : "Björn",
-    "author_last_name" : "Koneswarakantha",
+    "github_user_name" : "erblast",
+    "author_first_name" : "bjoern",
+    "author_last_name" : "koneswarakantha",
     "author_email" : "datistics@gmail.com",
-    "docker_base_image" : "erblast/r_conda_snakemake_pkgs",
-    "docker_target_image" : "cookie_ds_demo",
+    "rocker_verse_tag" : "3.6.1",
+    "year" : "2020",
     "rstudio_port" : "8787",
     "rstudio_password" : "123",
-    "rstudio_user" : "rstudio"
+    "rstudio_user" : "rstudio",
+    "jupyter_port": "8888",
+    "jupyter_token": "123",
+    "jekyll_port": "4000",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace('_', '').replace('-', '') }}",
+    "r_pkg_name": "{{ cookiecutter.project_slug + 'pkgr' }}",
+    "github_repo" : "{{ 'https://github.com/{}/{}.git'.format(cookiecutter.github_user_name, cookiecutter.project_name) }}",
+    "git_pages_address" : "{{ 'https://' + cookiecutter.github_user_name + '.github.io/' + cookiecutter.project_name + '/' }}",
+    "travis_address" : "{{ 'https://travis-ci.org/github/' + cookiecutter.github_user_name + '/' + cookiecutter.project_name}}",
+    "travis_badge" : "{{ 'https://travis-ci.org/' + cookiecutter.github_user_name + '/' + cookiecutter.project_name + '.svg?branch=master' }}"
 }
+

@@ -4,4 +4,18 @@ services:
   - docker
   
 script: 
-  - docker build . --file  docker/deploy.dockerfile
+  - docker build -t {{cookiecutter.project_name}} .
+  # in CI we would only run light weight tests 
+  - docker run -v"$PWD:/app/" {{cookiecutter.project_name}} snakemake test -F
+  # in CD we would run the entire container default command here we use travis for both
+  - docker run -v"$PWD:/app/" {{cookiecutter.project_name}}
+  # we would normally use a job scheduler to run jobs, here we also use travis
+  - docker run -v"$PWD:/app/" -e JOB_VARS1=job_configuration {{cookiecutter.project_name}} snakemake job -F --cores 1
+  
+# https://www.r-bloggers.com/continuous-deployment-of-package-documentation-with-pkgdown-and-travis-ci/
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep_history: true
+  local-dir: docs

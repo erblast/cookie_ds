@@ -1,0 +1,54 @@
+---
+title: "Index"
+output: 
+  md_document:
+    variant: gfm
+editor_options:
+  chunk_output_type: console
+params:
+  rules_to_report:
+    - exec
+    - test
+    - job
+---
+<!-- 
+The content rendered from this file is used as a prefix for snakemake reports.
+-->
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = F, warning = F, message = F)
+debug_file <-  paste0('debug/', 'index', '_rmd.Rdata')
+save.image(debug_file)
+```
+
+
+```{r libraries, echo = FALSE}
+suppressPackageStartupMessages( library('tidyverse') )
+suppressPackageStartupMessages( library('knitr') )
+suppressPackageStartupMessages( library('devtools') )
+suppressPackageStartupMessages( devtools::load_all("src/cookiedsdemopkgr") )
+```
+
+{{cookiecutter.description}}
+
+
+### Documentation
+
+- [cookiedsdemopkgr documentation](https://erblast.github.io/cookie_ds_demo//cookiedsdemopkgr/index.html)
+
+- [github repo](https://github.com/erblast/cookie_ds_demo.git)
+
+### Snakemake Reports
+
+
+```{r echo = FALSE }
+mdown_list <-  paste0("- [",
+                      params$rules_to_report,
+                      "](https://erblast.github.io/cookie_ds_demo/snakemake_report/",
+                      params$rules_to_report, 
+                      '.html)' ) %>%
+  paste( collapse = '\n')
+```
+
+`r mdown_list`
+

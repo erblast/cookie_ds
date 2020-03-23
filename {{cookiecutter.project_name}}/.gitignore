@@ -1,7 +1,20 @@
 **/.snakemake/**
+**/.vscode/**
+#pycharm
+.idea/
 
-**/*.feather
-**/*.csv
+# docs will be rendered by CI/CD
+docs/**
+
+# only input data should be commited if not pulled externally
+# data/in/**
+data/proc/**
+data/out/**
+
+# debug folder will never be commited
+debug/**
+
+
 **/.ipynb*/**
 **/*.twbr
 **/*.Rdata
@@ -162,9 +175,6 @@ rsconnect/
 *.hyper
 
 .remote-sync.json
-
-#pycharm
-.idea/
 
 .DS_Store
 **/*.DS_Store

@@ -1,0 +1,5 @@
+^LICENSE\.md$
+^{{cookiecutter.r_pkg_name}}\.Rproj$
+^\.Rproj\.user$
+^_pkgdown.yml$
+

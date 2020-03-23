@@ -1,0 +1,39 @@
+---
+title: "R Environment of {{cookiecutter.project_name}} docker image"
+output: 
+    html_document:
+      toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r echo = FALSE}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(DT))
+```
+
+
+# Session Info
+
+```{r echo = FALSE}
+print( sessionInfo() )
+```
+
+# R packages
+
+```{r echo = FALSE}
+installed.packages() %>%
+  as_tibble() %>%
+  select(Package, Version, LibPath) %>%
+  DT::datatable(extensions = c('Buttons'),
+                rownames = FALSE,
+                options = list(
+                  dom = 'Bflrtip',
+                  buttons = I( c('copy', 'excel')),
+                  colReorder = TRUE,
+                  keys = TRUE,
+                  pageLength = nrow(.)
+                  )
+  )
+```
+

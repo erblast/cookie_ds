@@ -1,0 +1,5 @@
+theme: jekyll-theme-slate
+title: {{cookiecutter.project_name}}
+description: Documentation
+
+repository: {{cookiecutter.github_user_name}}/{{cookiecutter.project_name}}

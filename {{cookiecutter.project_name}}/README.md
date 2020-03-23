@@ -1,88 +1,104 @@
 [![Snakemake](https://img.shields.io/badge/snakemake-≥5.6.0-brightgreen.svg?style=flat)](https://snakemake.readthedocs.io)
 [![Build Status]({{cookiecutter.travis_badge}})]({{cookiecutter.travis_address}})
-[snakemake report]({{cookiecutter.git_pages_address}}/snakemake_report/)
-[![gitrepo](https://icons-for-free.com/iconfiles/png/128/git+github+icon-1320191654571298174.png)]({{cookiecutter.github_repo}})
 
 # {{cookiecutter.project_name}}
 
 {{cookiecutter.description}}
 
-## Run in docker container
-```
-docker run -it --rm -v "$PWD":/app {{cookiecutter.docker_target_image}}
-```
+# Git Page with Documentation
 
-## Docker compose
+[{{cookiecutter.git_pages_address}}]({{cookiecutter.git_pages_address}})
 
-builds {{cookiecutter.docker_target_image}} if not found locally and start a shell_1 and rstudio_1 container
+## Start-up development endpoint
 
 ```
-docker-compose up -d
-docker container exec -it {{cookiecutter.docker_target_image}}_shell_1 /bin/bash 
-docker-compose down
+docker-compose build --parallel # needs internet connection
+docker-compose up -d 
+docker container exec -it {{cookiecutter.project_name}}_shell_1 /bin/bash 
+# exit
+# docker-compose down
 ```
 
-## Execute
-```shell
-snakemake
-```
+This starts the following images mounted with the local working directory:
+- [RStudio server, http://localhost:8787/](http://localhost:8787/)
+- [jupyter notebook server, http://localhost:8888/](http://localhost:8888/)
+- [jekyll server, http://localhost:4000/](http://localhost:4000/) (renders content of docs/ folder)
 
-## Dryrun
-```shell
-snakemake -n
+## Available Shell Commands
 
 ```
-
-## Execute after code changes
-```shell
-snakemake -R `snakemake --list-code-changes`
+snakemake                               # runs exec rule
+snakmeake exec                          # runs exec rule
+snakemake test                          # runs test rule
+snakemake job                           # runs job rule
+snakemake -n                            # dry-run of exec rule
+snakemake -F                            # force re-execution of rule input and output files
+snakemake plot -f                       # limit re-execution to rule output files
+snakemake --cores 3                     # set number of cores, snakemake will execute rules in parallel if possible
+R -f .doc_templates/render_docs.R       # renders documentation, needs internet connection
 ```
 
-## Force re-execution
-```shell
-snakemake -F
-```
+## Execute Container
 
-## Parallel Processing
+- runs **test**, **exec** and renders documentation into docs/
 
-```shell
-snakemake --cores 3
-```
+Code in **test** shoulld be leightweight and execute in minutes. It usually executes unit tests of packaged functions and objects and renders package documentation
 
-## Execute and build conda environment
-
-The conda environment will be reconstructed from `yml` file and stored in `./.snakemake/conda`.
-A single conda environment can be defined for each rule.
-
-```shell
-conda env export --name {{cookiecutter.project_name}}_env -f ./envs/{{cookiecutter.project_name}}_env_debian.yml
-```
-
-```shell
-snakemake --use-conda
-```
-## Test
-
-All generalizable R functions are collected in an R package under `{{cookiecutter.project_name}}R` which is checked and tested
+Code in **exec** should accesses a inmutable data. It can contain static experiments or code for training models. 
+Critical parts should be packaged and unit tested. This step is allowed to take up many computational ressources.
 
 ```
-snakemake test
+docker run -v"$PWD:/app/" {{cookiecutter.project_name}}               # uses code in mounted folder
+docker run -w /repo {{cookiecutter.project_name}}                     # uses code copied into container
+docker run -w /repo -e NCPUS=12 {{cookiecutter.project_name}}         # increase number of CPU
+
+```
+
+## Execute Job Rule
+
+The **job** rule in this demo repo does not do much. Code executed by a **job** rule should have a very high test coverage and configuration should be expressive using envirnment variables, rather than hidden in config files. Should be used for accessing data that periodcially refreshes and is allowed to take up many computationanl ressources. A typical application would be to generate predictions from a pre-trained model on new data.
+
+```
+docker run -v"$PWD:/app/" -e JOB_VARS1=job_configuration {{cookiecutter.project_name}} snakemake job -F --cores 1
+docker run -w /repo -e JOB_VARS1=job_configuration {{cookiecutter.project_name}} snakemake job -F --cores 1
+```
+
+## CI/CD using travis
+
+the folders `docs/` and `data/` were added to `.gitignore` because there content is dependent on code execution which can easily be forgotten before commiting to git. Data input and output is preferably stored outside the repo in a database or another form of remote data storage. The documentation containing reports, plots and references can be added automatically deployed to a separate branch in the code repository.
+
+For example travis can be set-up to publish the content of the `docs/` folder to the `gh-pages` branch.
+
+- enable gitpage rendering in github repository settings, and publish to gh-pages branch
+- follow these [instructions](https://www.r-bloggers.com/continuous-deployment-of-package-documentation-with-pkgdown-and-travis-ci/) to set configure travis.
+
+
+`.travis.yml` file
+
+```
+language: ruby
+
+services:
+  - docker
+  
+script: 
+  - docker build -t {{cookiecutter.project_name}} .
+  # in CI we would only run light weight tests 
+  - docker run -v"$PWD:/app/" {{cookiecutter.project_name}} snakemake test -F
+  # in CD we would run the entire container default command here we use travis for both
+  - docker run -v"$PWD:/app/" {{cookiecutter.project_name}}
+  # we would normally use a job scheduler to run jobs, here we also use travis
+  - docker run -v"$PWD:/app/" -e JOB_VARS1=job_configuration {{cookiecutter.project_name}} snakemake job -F --cores 1
+  
+# https://www.r-bloggers.com/continuous-deployment-of-package-documentation-with-pkgdown-and-travis-ci/
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep_history: true
+  local-dir: docs
 ```
 
 
-## Visualize workflow
-```shell
-snakemake --dag | dot -Tpng > ./docs/wflow/wflow.png
-```
-
-![](./docs/wflow/wflow.png)
-
-
-## Build Report
-
-```
-snakemake report # executes rules for building report building blocks
-snakemake --report docs/snakemake_report/index.html
-```
-
+In this case executing the entire code in the container is pretty lightweight and we can have travis test all of the rules.
 

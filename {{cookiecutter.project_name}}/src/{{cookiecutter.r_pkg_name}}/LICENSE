@@ -1,0 +1,2 @@
+YEAR: {{cookiecutter.year}}
+COPYRIGHT HOLDER: {{cookiecutter.author_first_name}} {{cookiecutter.author_last_name}}

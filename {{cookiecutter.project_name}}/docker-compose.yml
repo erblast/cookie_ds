@@ -2,17 +2,24 @@ version: '3.7'
 services:
   build_image:
     build: .
-    image: '{{cookiecutter.docker_target_image}}'
+    image: '{{cookiecutter.project_name}}'
     command: /bin/bash
+    
+  build_jup_image:
+    build:
+      context: .
+      dockerfile: docker/jupyter.dockerfile
+    image: '{{cookiecutter.project_name}}_jupyter'
+
   shell:
-    image: '{{cookiecutter.docker_target_image}}'
+    image: '{{cookiecutter.project_name}}'
     working_dir: /app
     # make container wait
     command: tail -F anything
     volumes: 
       - '.:/app'
   rstudio:
-    image: '{{cookiecutter.docker_target_image}}'
+    image: '{{cookiecutter.project_name}}'
     ports: 
       - '{{cookiecutter.rstudio_port}}:8787'
     volumes: 
@@ -22,3 +29,20 @@ services:
       PASSWORD: '{{cookiecutter.rstudio_password}}'
       USER: '{{cookiecutter.rstudio_user}}'
   
+  jupyter:
+    image: '{{cookiecutter.project_name}}_jupyter'
+    ports:
+      - '{{cookiecutter.jupyter_port}}:8888'
+    volumes:
+      - '.:/home/jovyan/work'
+    environment:
+      JUPYTER_TOKEN: '{{cookiecutter.jupyter_token}}'
+
+  jekyll:
+    image: jekyll/jekyll:pages
+    ports:
+      - '{{cookiecutter.jekyll_port}}:4000'
+    volumes:
+      - './docs:/srv/jekyll'
+    command:
+      jekyll serve

@@ -1,0 +1,15 @@
+navbar:
+  structure:
+    left:
+    - home
+    - reference
+    right: github
+  components:
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+url: https://{{cookiecutter.git_pages_address}}/{{cookiecutter.r_pkg_name}}
+destination: ../../docs/{{cookiecutter.r_pkg_name}}
