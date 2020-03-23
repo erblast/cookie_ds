@@ -4,8 +4,9 @@
 # Cookiecutter Data Science template using Snakemake Docker R and python
 
 inspired by:
-- [cookiecutter-docker-science](https://github.com/docker-science/cookiecutter-docker-science)
 - [cookiecutter data science](https://drivendata.github.io/cookiecutter-data-science/)
+- [cookiecutter-docker-science](https://github.com/docker-science/cookiecutter-docker-science) (python + make + docker)
+- [drake-gitlab-docker-example](https://gitlab.com/ecohealthalliance/drake-gitlab-docker-example) (R + make + drake + docker)
 
 # Demo
 
@@ -36,7 +37,7 @@ Adding features to a repo that make it deployment ready such as unit testing, CI
 
 `snakemake` is an execution manager that tracks file history and only executes those part of the code that have changed since the last run. It is baed on `python` and can integrate `R`, `python` and `shell` commands equally well. It can assign multiple cores to rules that can be executed in parallel and builds sophisticated `html` reports of completed runs.
 
-- 
+
 
 # Template Folder Structure
 ```
@@ -84,3 +85,30 @@ Adding features to a repo that make it deployment ready such as unit testing, CI
 └── docker-compose.yml
 
 ```
+
+# Deployment
+
+We distinguish between three types of code/commands that can be executed within the container **test**, **exec** and **job**
+
+Code in **test** shoulld be leightweight and execute in minutes. It usually executes unit tests of packaged functions and objects and renders package documentation
+
+Code in **exec** should accesses a inmutable data. It can contain static experiments or code for training models. 
+Critical parts should be packaged and unit tested. This step is allowed to take up many computational ressources.
+
+The **job** rule in this demo repo does not do much. Code executed by a **job** rule should have a very high test coverage and configuration should be expressive using envirnment variables, rather than hidden in config files. Should be used for accessing data that periodcially refreshes and is allowed to take up many computationanl ressources. A typical application would be to generate predictions from a pre-trained model on new data.
+
+These rules could be used to set up this deployment strategy
+
+![](container_deployment.png)
+
+# Automated Documentation
+
+the folders `docs/` and `data/` were added to `.gitignore` because there content is dependent on code execution which can easily be forgotten before commiting to git. Data input and output is preferably stored outside the repo in a database or another form of remote data storage. The documentation containing reports, plots and references can be added automatically deployed to a separate branch in the code repository.
+
+For example travis can be set-up to publish the content of the `docs/` folder to the `gh-pages` branch.
+
+- enable gitpage rendering in github repository settings, and publish to gh-pages branch
+- follow these [instructions](https://www.r-bloggers.com/continuous-deployment-of-package-documentation-with-pkgdown-and-travis-ci/) to set configure travis.
+
+
+**For more details checkt the [cookie_ds_demo repository](https://github.com/erblast/cookie_ds_demo)**
