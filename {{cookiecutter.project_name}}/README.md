@@ -5,7 +5,7 @@
 
 {{cookiecutter.description}}
 
-# Git Page with Documentation
+## Documentation
 
 [{{cookiecutter.git_pages_address}}]({{cookiecutter.git_pages_address}})
 
@@ -20,9 +20,11 @@ docker container exec -it {{cookiecutter.project_name}}_shell_1 /bin/bash
 ```
 
 This starts the following images mounted with the local working directory:
-- [RStudio server, http://localhost:8787/](http://localhost:8787/)
-- [jupyter notebook server, http://localhost:8888/](http://localhost:8888/)
+- [RStudio server, http://localhost:8787/](http://localhost:8787/) Password: 123, User: rstudio
+- [jupyter notebook server, http://localhost:8888/](http://localhost:8888/) Password: 123
 - [jekyll server, http://localhost:4000/](http://localhost:4000/) (renders content of docs/ folder)
+
+edit `docker-compose.yml` to change usernames, password and port.
 
 ## Available Shell Commands
 
@@ -40,7 +42,7 @@ R -f .doc_templates/render_docs.R       # renders documentation, needs internet 
 
 ## Execute Container
 
-- runs **test**, **exec** and renders documentation into docs/
+runs **test**, **exec** and renders documentation into docs/
 
 Code in **test** shoulld be leightweight and execute in minutes. It usually executes unit tests of packaged functions and objects and renders package documentation
 

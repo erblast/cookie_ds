@@ -1,6 +1,11 @@
 .snakemake/
 .git/
 debug/**
-data/in/**
+
+# data, docs and models folder content should be rendered from running code in /repo after build
+
+# data/in/**
 data/proc/**
 data/out/**
+docs/**
+models/**
