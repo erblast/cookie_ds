@@ -100,9 +100,9 @@ RUN R -e "remotes::install_version('easyalluvial', version = '0.2.0', repos='htt
 
 ## option 4 ------------------------------------------------------------
 # (prefered option, can be repeated for jupyter notebook image)
-# specify packages in envs/cookiedsdemo_conda.yml
+# specify packages in envs/{{cookiecutter.project_slug}}_conda.yml
 
-RUN conda env update --file /repo/envs/cookiedsdemo_conda.yml
+RUN conda env update --file /repo/envs/{{cookiecutter.project_slug}}_conda.yml
 
 ###########################################
 # Set environment variables               #
