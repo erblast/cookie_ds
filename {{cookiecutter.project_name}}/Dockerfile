@@ -1,5 +1,5 @@
 # Requires rocker/verse image
-FROM rocker/verse:3.6.1
+FROM rocker/verse:{{cookiecutter.rocker_verse_tag}}
 
 #################################################
 # Install additional required R packages        #
