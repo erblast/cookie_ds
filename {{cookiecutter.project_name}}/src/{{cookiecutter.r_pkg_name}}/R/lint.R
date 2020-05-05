@@ -16,6 +16,8 @@ lint_package <- function(...) {
     if (length(lint_results) > 0) {
         print(lint_results)
         stop(paste(lint_results))
+    } else {
+        print("no lint violations")
     }
 
 }

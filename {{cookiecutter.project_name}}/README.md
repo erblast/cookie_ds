@@ -31,7 +31,7 @@ edit `docker-compose.yml` to change usernames, password and port.
 ```
 snakemake                               # runs exec rule
 snakmeake exec                          # runs exec rule
-snakemake test                          # runs test rule
+snakemake test --keep-incomplete --keep-going                          # runs test rule
 snakemake job                           # runs job rule
 snakemake -n                            # dry-run of exec rule
 snakemake -F                            # force re-execution of rule input and output files
@@ -86,7 +86,7 @@ services:
 script: 
   - docker build -t {{cookiecutter.project_name}} .
   # in CI we would only run light weight tests 
-  - docker run -v"$PWD:/app/" {{cookiecutter.project_name}} snakemake test -F
+  - docker run -v"$PWD:/app/" {{cookiecutter.project_name}} snakemake test --keep-incomplete --keep-going -F
   # in CD we would run the entire container default command here we use travis for both
   - docker run -v"$PWD:/app/" {{cookiecutter.project_name}}
   # we would normally use a job scheduler to run jobs, here we also use travis

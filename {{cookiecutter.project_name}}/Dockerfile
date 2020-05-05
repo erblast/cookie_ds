@@ -50,17 +50,6 @@ RUN apt install imagemagick -y
 RUN pip install pygments
 RUN pip install jinja2
 
-###########################################
-# Prepare code folder                     #
-###########################################
-
-# code folder ----------------------------------------------------------
-# data/ folder is not added by default, change .dockerignore if needed
-# use docker run -w /repo when executing container without mounting to repo
-COPY . /repo 
-
-#  mount folder --------------------------------------------------------
-WORKDIR /app
 
 
 ###########################################
@@ -100,9 +89,10 @@ RUN R -e "remotes::install_version('easyalluvial', version = '0.2.0', repos='htt
 
 ## option 4 ------------------------------------------------------------
 # (prefered option, can be repeated for jupyter notebook image)
-# specify packages in envs/cookiedsdemo_conda.yml
+# specify packages in envs/{{cookiecutter.project_slug}}_conda.yml
 
-RUN conda env update --file /repo/envs/cookiedsdemo_conda.yml
+COPY envs/{{cookiecutter.project_slug}}_conda.yml /files/envs/
+RUN conda env update --file /files/envs/{{cookiecutter.project_slug}}_conda.yml
 
 ###########################################
 # Set environment variables               #
@@ -115,6 +105,15 @@ ENV CORES=1
 # default container command               #
 ###########################################
 
-CMD snakemake test -F && \
+#  mount folder -------------------------------------------------------
+WORKDIR /app
+
+#  repo folder --------------------------------------------------------
+COPY . /repo 
+
+
+CMD snakemake test --delete-all-output -F && \
+    snakemake test --keep-incomplete --keep-going -F && \
+    snakemake --delete-all-output -F && \
     snakemake -F --cores $CORES && \
     R -f .doc_templates/render_docs.R 

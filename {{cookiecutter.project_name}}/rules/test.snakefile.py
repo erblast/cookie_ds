@@ -51,9 +51,9 @@ if config["lint"]:
       report("docs/testlog/lint_{{cookiecutter.r_pkg_name}}.txt", category="lint")
     shell: """
               Rscript -e 'sink(\"{output}\")' \
-                      -e 'devtools::load_all("src/cookiedsdemopkgr")' \
+                      -e 'devtools::load_all("src/{{cookiecutter.r_pkg_name}}")' \
                       -e 'my_linters <- with_defaults(line_length_linter = line_length_linter(120))' \
-                      -e 'lint_package("src/cookiedsdemopkgr", linters = my_linters)' \
+                      -e 'lint_package("src/{{cookiecutter.r_pkg_name}}", linters = my_linters)' \
                       -e 'sink()' \
              """
 else:

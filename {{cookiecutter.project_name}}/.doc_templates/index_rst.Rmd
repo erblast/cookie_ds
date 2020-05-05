@@ -26,7 +26,7 @@ save.image(debug_file)
 suppressPackageStartupMessages( library('tidyverse') )
 suppressPackageStartupMessages( library('knitr') )
 suppressPackageStartupMessages( library('devtools') )
-suppressPackageStartupMessages( devtools::load_all("src/cookiedsdemopkgr") )
+suppressPackageStartupMessages( devtools::load_all("src/{{cookiecutter.r_pkg_name}}") )
 ```
 
 {{cookiecutter.description}}
@@ -34,9 +34,9 @@ suppressPackageStartupMessages( devtools::load_all("src/cookiedsdemopkgr") )
 
 ### Documentation
 
-- [cookiedsdemopkgr documentation](https://erblast.github.io/cookie_ds_demo//cookiedsdemopkgr/index.html)
+- [{{cookiecutter.r_pkg_name}} documentation](https://erblast.github.io/{{cookiecutter.project_name}}//{{cookiecutter.r_pkg_name}}/index.html)
 
-- [github repo](https://github.com/erblast/cookie_ds_demo.git)
+- [github repo](https://github.com/erblast/{{cookiecutter.project_name}}.git)
 
 ### Snakemake Reports
 
@@ -44,7 +44,7 @@ suppressPackageStartupMessages( devtools::load_all("src/cookiedsdemopkgr") )
 ```{r echo = FALSE }
 mdown_list <-  paste0("- [",
                       params$rules_to_report,
-                      "](https://erblast.github.io/cookie_ds_demo/snakemake_report/",
+                      "](https://erblast.github.io/{{cookiecutter.project_name}}/snakemake_report/",
                       params$rules_to_report, 
                       '.html)' ) %>%
   paste( collapse = '\n')

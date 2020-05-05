@@ -36,15 +36,17 @@ rule plot_rmd_shell:
     shell:
 #     # snakemake removes all single quotation marks from a command therefore we use triple
 #     # quotation for the outside string
-        """R -e 'wd = getwd(); \
-                rmarkdown::render( "{input[0]}", \
-                    output_file = normalizePath( paste0( wd,"/" ,"{output[0]}" ) ), \
-                    params = list(input = "{input[1]}",  \
-                                  output = "{output[1]}" ), \
-                    knit_root_dir = getwd(), \
-                    envir = new.env() )' \
+        """R -e 'snake_wd <- getwd()' \
+             -e 'snake_input <- strsplit("{input}", " ")[[1]]' \
+             -e 'snake_output <- strsplit("{output}", " ")[[1]]' \
+             -e 'rmarkdown::render( snake_input[1],
+                    output_file = normalizePath( paste0( snake_wd,"/" , snake_output[1] ) ),
+                    params = list(input = snake_input[2: length(snake_input)],
+                                  output = snake_output[2: length(snake_output)],
+                                  rule = "plot_rmd_shell"),
+                    knit_root_dir = snake_wd,
+                )'
         """
-        
 rule plot_execute_nb_plot:
     input:
         'src/nb/vanilla/plot.ipynb',

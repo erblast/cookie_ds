@@ -21,7 +21,7 @@ save.image(debug_file)
 ```
 
 
-```{r libraries = FALSE}
+```{r libraries}
 suppressPackageStartupMessages( library('tidyverse') )
 suppressPackageStartupMessages( library('easyalluvial') )
 suppressPackageStartupMessages( library('feather') )

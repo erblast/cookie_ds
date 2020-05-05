@@ -17,6 +17,8 @@ data/out/**
 # debug folder will never be commited
 debug/**
 
+# do not commit jekyll server artefacts
+docs/_site
 
 **/.ipynb*/**
 **/*.twbr

@@ -6,7 +6,7 @@ services:
 script: 
   - docker build -t {{cookiecutter.project_name}} .
   # in CI we would only run light weight tests 
-  - docker run -v"$PWD:/app/" {{cookiecutter.project_name}} snakemake test -F
+  - docker run -v"$PWD:/app/" {{cookiecutter.project_name}} snakemake test --keep-incomplete --keep-going -F
   # in CD we would run the entire container default command here we use travis for both
   - docker run -v"$PWD:/app/" {{cookiecutter.project_name}}
   # we would normally use a job scheduler to run jobs, here we also use travis

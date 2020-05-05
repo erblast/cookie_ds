@@ -14,10 +14,10 @@
     "jupyter_token": "123",
     "jekyll_port": "4000",
     "project_slug": "{{ cookiecutter.project_name.lower().replace('_', '').replace('-', '') }}",
-    "r_pkg_name": "{{ cookiecutter.project_slug + 'pkgr' }}",
+    "r_pkg_name": "{{ '{}pkgr'.format(cookiecutter.project_slug) }}",
     "github_repo" : "{{ 'https://github.com/{}/{}.git'.format(cookiecutter.github_user_name, cookiecutter.project_name) }}",
-    "git_pages_address" : "{{ 'https://' + cookiecutter.github_user_name + '.github.io/' + cookiecutter.project_name + '/' }}",
-    "travis_address" : "{{ 'https://travis-ci.org/github/' + cookiecutter.github_user_name + '/' + cookiecutter.project_name}}",
-    "travis_badge" : "{{ 'https://travis-ci.org/' + cookiecutter.github_user_name + '/' + cookiecutter.project_name + '.svg?branch=master' }}"
+    "git_pages_address" : "{{ 'https://{}.github.io/{}/'.format(cookiecutter.github_user_name, cookiecutter.project_name) }}",
+    "travis_address" : "{{ 'https://travis-ci.org/github/{}/{}'.format(cookiecutter.github_user_name, cookiecutter.project_name) }}",
+    "travis_badge" : "{{ 'https://travis-ci.org/{}/{}.svg?branch=master'.format(cookiecutter.github_user_name, cookiecutter.project_name) }}"
 }
 

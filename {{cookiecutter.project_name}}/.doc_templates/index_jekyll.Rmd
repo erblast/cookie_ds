@@ -30,7 +30,7 @@ suppressPackageStartupMessages( library('knitr') )
 
 ## Documentation
 
-- [cookiedsdemopkgr documentation](https://erblast.github.io/cookie_ds_demo//cookiedsdemopkgr/index.html){:target="_blank"}
+- [{{cookiecutter.r_pkg_name}} documentation](https://erblast.github.io/{{cookiecutter.project_name}}//{{cookiecutter.r_pkg_name}}/index.html){:target="_blank"}
 
 <br> 
 
